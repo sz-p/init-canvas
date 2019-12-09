@@ -19,7 +19,7 @@ const getDom = function (dom: string | HTMLElement | null): DomInfor {
   else if (typeof dom === 'string') {
     let elementDom = document.getElementById(dom);
     return getDom(elementDom);
-  } else if (dom.constructor && dom.constructor[name] === 'HTMLCanvasElement') {
+  } else if (dom.constructor && dom.constructor['name'] === 'HTMLCanvasElement') {
     let canvasWidth = dom.clientWidth;
     let canvasHeight = dom.clientHeight;
     return {
@@ -28,7 +28,7 @@ const getDom = function (dom: string | HTMLElement | null): DomInfor {
       width: canvasWidth,
       height: canvasHeight
     }
-  } else if (dom.constructor && dom.constructor[name] === 'HTMLDivElement') {
+  } else if (dom.constructor && dom.constructor['name'] === 'HTMLDivElement') {
     let divWidth = dom.clientWidth;
     let divHeight = dom.clientHeight;
     return {
@@ -43,27 +43,27 @@ const getDom = function (dom: string | HTMLElement | null): DomInfor {
 }
 
 
-const setCanvasAttr = function (domInfor: DomInfor, width: number, height: number): void {
+const setCanvasAttr = function (domInfor: DomInfor, width?: number, height?: number): void {
   let canvaseWidth = width || domInfor.width;
   let canvaseHeight = height || domInfor.height;
-  let canvasDom = domInfor.dom;
+  let canvasDom = <HTMLCanvasElement>domInfor.dom;
 
   if (!canvaseWidth || !canvaseHeight) {
     throw new Error('canvasDom have no size');
   }
 
-  canvasDom[width] = canvaseWidth;
-  canvasDom[height] = canvaseHeight;
+  canvasDom.width = canvaseWidth;
+  canvasDom.height = canvaseHeight;
 }
 
-const canvasDomHandle = function (domInfor: DomInfor, width: number, height: number): CanvasInfor {
+const canvasDomHandle = function (domInfor: DomInfor, width?: number, height?: number): CanvasInfor {
   setCanvasAttr(domInfor, width, height);
   let canvasDom = <HTMLCanvasElement>domInfor.dom;
   return {
     canvasDom: canvasDom,
     canvasContext: <CanvasRenderingContext2D>canvasDom.getContext('2d'),
-    width: domInfor.dom[width],
-    height: domInfor.dom[height]
+    width: canvasDom.width,
+    height: canvasDom.height
   }
 }
 
@@ -91,7 +91,14 @@ const divDomHandle = function (domInfor: DomInfor, width?: number, height?: numb
   }
 }
 
-export default function (dom: HTMLElement | string, width?: number, height?: number): CanvasInfor {
+/**
+ * input a dom or domId canvas or canvseDomId return canvas context and width height
+ * 
+ * @param dom Element or ID of a HTMLDivElement or HTMLCanvasElement object
+ * @param width if width is undefined canvas width is container`s width
+ * @param height if height is undefined canvas height is container`s height
+ */
+export default function (dom: HTMLCanvasElement | HTMLDivElement | string, width?: number, height?: number): CanvasInfor {
   let domInfor = getDom(dom);
   if (domInfor.type === 'HTMLCanvasElement') {
     return canvasDomHandle(domInfor, width, height);

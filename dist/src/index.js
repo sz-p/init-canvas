@@ -8,7 +8,7 @@ var getDom = function (dom) {
         var elementDom = document.getElementById(dom);
         return getDom(elementDom);
     }
-    else if (dom.constructor && dom.constructor[name] === 'HTMLCanvasElement') {
+    else if (dom.constructor && dom.constructor['name'] === 'HTMLCanvasElement') {
         var canvasWidth = dom.clientWidth;
         var canvasHeight = dom.clientHeight;
         return {
@@ -18,7 +18,7 @@ var getDom = function (dom) {
             height: canvasHeight
         };
     }
-    else if (dom.constructor && dom.constructor[name] === 'HTMLDivElement') {
+    else if (dom.constructor && dom.constructor['name'] === 'HTMLDivElement') {
         var divWidth = dom.clientWidth;
         var divHeight = dom.clientHeight;
         return {
@@ -39,8 +39,8 @@ var setCanvasAttr = function (domInfor, width, height) {
     if (!canvaseWidth || !canvaseHeight) {
         throw new Error('canvasDom have no size');
     }
-    canvasDom[width] = canvaseWidth;
-    canvasDom[height] = canvaseHeight;
+    canvasDom.width = canvaseWidth;
+    canvasDom.height = canvaseHeight;
 };
 var canvasDomHandle = function (domInfor, width, height) {
     setCanvasAttr(domInfor, width, height);
@@ -48,8 +48,8 @@ var canvasDomHandle = function (domInfor, width, height) {
     return {
         canvasDom: canvasDom,
         canvasContext: canvasDom.getContext('2d'),
-        width: domInfor.dom[width],
-        height: domInfor.dom[height]
+        width: canvasDom.width,
+        height: canvasDom.height
     };
 };
 var createCanvase = function (width, height) {

@@ -1,9 +1,11 @@
-import initCanvas from '../dist/src/index';
-import { JSDOM } from 'jsdom';
+//TODO
 
-const divDom = new JSDOM(`<div id='divDom'></div>`)
-// const divDomWithStyle = new JSDOM(`<div id='divDomWithStyle' style = {{ width: 200, height: 200 }} > </div>`)
-// const canvasDom = new JSDOM(`< canvas id = 'canvasDom' > </canvas>`)
+import initCanvas from '../dist/src/index';
+// import { JSDOM } from 'jsdom';
+
+// const divDom = new JSDOM(`<div id='divDom'></div>`);
+// const canvasDom = new JSDOM(`< canvas id = 'canvasDom' > </canvas>`);
+// const divDomWithStyle = new JSDOM(`<div id='divDomWithStyle' style = {{ width: 200, height: 200 }} > </div>`);
 // const canvasDomWithStyle = new JSDOM(`< canvas id = 'canvasDomWithStyle' style = {{ width: 200, height: 200 }} > </canvas>`)
 // const divDomWithStyleGiveDom = new JSDOM(`< div id = 'divDomWithStyleGiveDom' ref = { divDomRef } style = {{ width: 200, height: 200 }} > </div>`)
 // const canvasDomGiveDom = new JSDOM(`< canvas id = 'canvasDomGiveDom' ref = { canvseDomRef } style = {{ width: 200, height: 200 }} > </canvas>`)
@@ -22,6 +24,6 @@ const divDom = new JSDOM(`<div id='divDom'></div>`)
 
 test("null", () => {
   expect(() => {
-    initCanvas(divDom, 200, 200);
-  }).toThrow(Error);
+    initCanvas('null');
+  }).toThrow(new Error('no input dom'));
 })

@@ -1,188 +1,82 @@
-# type-check-plus
-A library for javascript to check value is equal or not with the definition
+# init-canvas
+input a dom or domId  canvas or canvseDomId return canvas context and width height
 
 # Install
 ```shell
-npm install type-check-plus
+npm install init-canvas
 ```
-# How to use
-```javascript
-import check, { checkTree } from 'type-check-plus';
-const objValue = [{
-    name: 'sz-p',
-    age: 1,
-    infor: {
-      hight: 1.0,
-      weight: 2.0
-    },
-    friends: ['liu', 'zhang', 'li']
-},{
-    name: 'j-l',
-    age: 1,
-    infor: {
-      hight: 1.0,
-      weight: 2.0
-    }
-}]；
-const objDefine = [{
-    name: 'string',
-    age: 'int',
-    infor: {
-        hight: 'number',
-        weight: 'number'
-    },
-    // if 'friends' can be undefind use '?' in first char
-    friends: '?string[]'
-}]
-const option = {
-  // if objValue is very large use 'threshold' to limit check count
-  threshold: 1,
-  onError: (value,define)=>{console.log(value,define)},
-  onCheck: (value,define)=>{console.log(value,define)}
+
+# Interface
+
+```typescript
+export interface CanvasInfor {
+    canvasContext: CanvasRenderingContext2D;
+    canvasDom: HTMLCanvasElement;
+    width: number;
+    height: number;
 }
-check(objValue,objDefine,option)  // true                    
+/**
+ * input a dom or domId  canvas or canvseDomId return canvas context and width height
+ * 
+ * @param dom Element or ID of a HTMLDivElement or HTMLCanvasElement object
+ * @param width if width is undefined canvas width is container`s width
+ * @param height if height is undefined canvas height is container`s height
+ */
+export default function (dom: HTMLElement | string, width?: number, height?: number): CanvasInfor;
 ```
 
-# ParameterList
-|Parameter|Example|return|description|
-|:---:|:---:|:---:|:---:|
-|int|check(1, 'int')|true||
-|int|check(1.0, 'int')|false||
-|number|check(1.0, 'number')|true||
-|number|check(NaN, 'number')|false||
-|string|check('string', 'string')|true||
-|boolean|check(true, 'boolean')|true||
-|boolean|check(1, 'boolean')|false| 0 or 1 is not 'boolean' use true or false|
-|any|check(undefined, 'boolean')|true|any input can be 'any'|
-|object|check({}, 'object')|true|
-|color|check('rgba(0,0,0,100)', 'color')|false|alpha:[0-1] .1 also could be used|
-|color|check('#000000', 'color')|true|
-|color|check('black', 'color')|true|[colorName](http://www.w3school.com.cn/cssref/css_colorsfull.asp)|
-|date|check('2018-08-08', 'date')|true|
-|date|check('2018-02-31', 'date')|false|
-|array|check([], 'array')|true|
-|function|check((function () { }), 'function')|true|
-|emailaddress|check('sz_p@outlook.com', 'emailaddress)'|true|
 
-# CheckArray
-use '[]' to define array like `'[parameter][]'` Example:`'int[]'`,`'number[]'` all parameter is in [ParameterList](#ParameterList)
-## example
-|Parameter|Example|return|description|
-|:---:|:---:|:---:|:---:|
-|int[]|check([1,2,3,4], 'int[]')|true||
-|date[]|check(['2018-08-08','2018-08-09','2018-08-10','2018-08-11'], 'date[]')|true||
+# Example
 
-# CheckObject
+```html
+<div id='divDom'></div>
+<div id='divDomWithStyle' style={{ width: 200, height: 200 }} ></div>
+<canvas id='canvasDom'></canvas>
+<canvas id='canvasDomWithStyle' style={{ width: 200, height: 200 }} ></canvas>
+
+<div id='divDomWithStyleGiveDom' ref={divDomRef} style={{ width: 200, height: 200 }} ></div>
+<canvas id='canvasDomGiveDom' ref={canvseDomRef} style={{ width: 200, height: 200 }} ></canvas>
+
+
+<div id='divDomWithSize'></div>
+<div id='divDomWithStyleWithSize' style={{ width: 200, height: 200 }} ></div>
+<canvas id='canvasDomWithSize'></canvas>
+<canvas id='canvasDomWithStyleWithSize' style={{ width: 200, height: 200 }} ></canvas>
+
+<div id='divDomWithStyleGiveDomWithSize' ref={divDomWithSizeRef} style={{ width: 200, height: 200 }} ></div>
+<canvas id='canvasDomGiveDomWithSize' ref={canvseDomWithSizeRef} style={{ width: 200, height: 200 }} ></canvas>
+```
+
 ```javascript
-import check, { checkTree } from 'type-check-plus';
-const objValue = {
-    name: 'sz-p',
-    age: 24,
-    infor: {
-      hight: 183,
-      weight: 90
-    },
-    friends: ['liu', 'zhang', 'li']
-}；
-const objDefine = {
-    name: 'string',
-    age: 'int',
-    infor: {
-        hight: 'number',
-        weight: 'number'
-    },
-    friends: 'string[]'
-}
+// input a divDom by id
+canvasInfor = initCanvas('divDomWithStyle'); 
 
-check(objValue, objDefine) // true
+// canvasInfor {
+//  canvasContext: CanvasRenderingContext2D {canvas: canvas, globalAlpha: 1, globalCompositeOperation: "source-over", filter: "none", imageSmoothingEnabled: true, …}
+//  canvasDom: canvas
+//  height: 200
+//  width: 200
+// }
+
+// input a canvasDom by id
+initCanvas('canvasDomWithStyle');
+// input a divDom by dom
+initCanvas(divDomRef.current);
+// input a canvasDom by dom
+initCanvas(canvseDomRef.current);
+
+// with size
+initCanvas('divDomWithStyleWithSize', 400, 400);
+
+// canvasInfor {
+//  canvasContext: CanvasRenderingContext2D {canvas: canvas, globalAlpha: 1, globalCompositeOperation: "source-over", filter: "none", imageSmoothingEnabled: true, …}
+//  canvasDom: canvas
+//  height: 400
+//  width: 400
+// }
+
+initCanvas('canvasDomWithStyleWithSize', 400, 400);
+initCanvas(divDomWithSizeRef.current, 400, 400);
+initCanvas(canvseDomWithSizeRef.current, 400, 400);         
 ```
 
-# CheckArrayList
-use `[[parameter],[parameter],[parameter]]` to define arrayList all parameter is in [ParameterList](#ParameterList).
-## example
-|Example|return|
-|:---:|:---:|
-|check([1, '2', 3.0, (() => { }), {}], '['int', 'string', 'number', 'function', 'object']')|true|
-|check([1, '2', 3.0, (() => { })], '['int', 'string', 'number', 'function', 'object']')|true|
-|check([1, '2', 3.0, (() => { })], '['int', 'string', 'number', 'function']')|false|
-
-# CheckObjectArray
-```javascript
-import check, { checkTree } from 'type-check-plus';
-const objValue = [{
-    name: 'sz-p',
-    age: 1,
-    infor: {
-      hight: 1.0,
-      weight: 2.0
-    },
-    friends: ['liu', 'zhang', 'li']
-},{
-    name: 'j-l',
-    age: 1,
-    infor: {
-      hight: 1.0,
-      weight: 2.0
-    },
-    friends: ['p', 'll', 'li']
-}]；
-const objDefine = [{
-    name: 'string',
-    age: 'int',
-    infor: {
-        hight: 'number',
-        weight: 'number'
-    },
-    friends: 'string[]'
-}]
-
-check(objValue,objDefine) // true
-```
-# CheckTree
-```javascript
-import check, { checkTree } from 'type-check-plus';
-const treeValue = {
-  name: 'aa',
-  value: 1,
-  id: 1,
-  children: [
-    {
-      name: 'aa',
-      value: 2,
-      id: 1,
-      children: [
-        {
-          name: 'aa',
-          value: 3,
-          id: 1,
-          children: [
-          ]
-        },
-        {
-          name: 'aa',
-          value: 3,
-          id: 2
-        }
-      ]
-    }
-  ]
-}
-const treeDefine = {
-    name: 'string',
-    value: 'int',
-    id: 'int',
-    children: '?node[]'
-}
-checkTree(treeValue,treeDefine) // true
-```
-# Options
-|option|type|description|
-|:---:|:---:|:---:|
-|threshold|int|if value is very large use 'threshold' to limit check count|
-|onError|function(value:string,define:string):void|before return false call onError|
-|onCheck|function(value:string,define:string):void|before check value or value's attribute call onCheck|
-
-# Test
-```shell
-yarn test
-```
