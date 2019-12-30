@@ -80,3 +80,5 @@ initCanvas(divDomWithSizeRef.current, 400, 400);
 initCanvas(canvseDomWithSizeRef.current, 400, 400);         
 ```
 
+## TODO
+[ ] use try catch and log error to replace throw error
