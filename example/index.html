@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id='divDom'></div>
+  <div id='divDomWithStyle' style="width: 200px; height: 200px" ></div>
+  <canvas id='canvasDom'></canvas>
+  <canvas id='canvasDomWithStyle' style="width: 200px; height: 200px"></canvas>
+
+  <div id='divDomWithStyleGiveDom' style="width: 200px; height: 200px"></div>
+  <canvas id='canvasDomGiveDom' style="width: 200px; height: 200px"></canvas>
+
+
+  <div id='divDomWithSize'></div>
+  <div id='divDomWithStyleWithSize' style="width: 200px; height: 200px"></div>
+  <canvas id='canvasDomWithSize'></canvas>
+  <canvas id='canvasDomWithStyleWithSize' style="width: 200px; height: 200px"></canvas>
+
+  <div id='divDomWithStyleGiveDomWithSize' style="width: 200px; height: 200px"></div>
+  <canvas id='canvasDomGiveDomWithSize' style="width: 200px; height: 200px"></canvas>
+</body>
+<script type="module">
+  import initCanvas from "../dist/src/index.js"
+  // input a divDom by id
+  const divDomWithStyle = initCanvas('divDomWithStyle'); 
+  // input a canvasDom by id
+  const canvasDomWithStyle = initCanvas('canvasDomWithStyle');
+  // input a divDom by dom
+  const divDomWithStyleGiveDom = initCanvas(document.getElementById("divDomWithStyleGiveDom"));
+  // input a canvasDom by dom
+  const canvasDomGiveDom = initCanvas(document.getElementById("canvasDomGiveDom"));
+  // with size
+  const divDomWithStyleWithSize = initCanvas('divDomWithStyleWithSize', 400, 400);
+
+  const canvasDomWithStyleWithSize = initCanvas('canvasDomWithStyleWithSize', 400, 400);
+
+  const divDomWithStyleGiveDomWithSize = initCanvas(document.getElementById("divDomWithStyleGiveDomWithSize"), 400, 400);
+  const canvasDomGiveDomWithSize = initCanvas(document.getElementById("canvasDomGiveDomWithSize"), 400, 400);
+  
+  const body = initCanvas(document.body); 
+  const html = initCanvas(document.children[0]);
+
+  console.log(divDomWithStyle)
+  console.log(canvasDomWithStyle)
+  console.log(divDomWithStyleGiveDom)
+  console.log(canvasDomGiveDom)
+  console.log(divDomWithStyleWithSize)
+  console.log(canvasDomWithStyleWithSize)
+  console.log(divDomWithStyleGiveDomWithSize)
+  console.log(canvasDomGiveDomWithSize)
+  console.log(body)
+  console.log(html)
+  
+</script>
+</html>

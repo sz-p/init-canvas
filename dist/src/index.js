@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var getDom = function (dom) {
     if (!dom) {
         throw new Error('no input dom');
@@ -18,29 +16,26 @@ var getDom = function (dom) {
             height: canvasHeight
         };
     }
-    else if (dom.constructor && dom.constructor['name'] === 'HTMLDivElement') {
-        var divWidth = dom.clientWidth;
-        var divHeight = dom.clientHeight;
+    else {
+        var domWidth = dom.clientWidth;
+        var domHeight = dom.clientHeight;
         return {
             dom: dom,
-            type: 'HTMLDivElement',
-            width: divWidth,
-            height: divHeight
+            type: 'HTMLElement',
+            width: domWidth,
+            height: domHeight
         };
-    }
-    else {
-        throw new Error('no input dom');
     }
 };
 var setCanvasAttr = function (domInfor, width, height) {
-    var canvaseWidth = width || domInfor.width;
-    var canvaseHeight = height || domInfor.height;
+    var canvasWidth = width || domInfor.width;
+    var canvasHeight = height || domInfor.height;
     var canvasDom = domInfor.dom;
-    if (!canvaseWidth || !canvaseHeight) {
+    if (!canvasWidth || !canvasHeight) {
         throw new Error('canvasDom have no size');
     }
-    canvasDom.width = canvaseWidth;
-    canvasDom.height = canvaseHeight;
+    canvasDom.width = canvasWidth;
+    canvasDom.height = canvasHeight;
 };
 var canvasDomHandle = function (domInfor, width, height) {
     setCanvasAttr(domInfor, width, height);
@@ -52,7 +47,7 @@ var canvasDomHandle = function (domInfor, width, height) {
         height: canvasDom.height
     };
 };
-var createCanvase = function (width, height) {
+var createCanvas = function (width, height) {
     var canvasDom = document.createElement('canvas');
     setCanvasAttr({ dom: canvasDom }, width, height);
     return canvasDom;
@@ -63,7 +58,7 @@ var divDomHandle = function (domInfor, width, height) {
     if (!divWidth || !divHeight) {
         throw new Error('divDom have no size');
     }
-    var canvasDom = createCanvase(divWidth, divHeight);
+    var canvasDom = createCanvas(divWidth, divHeight);
     domInfor.dom.appendChild(canvasDom);
     return {
         canvasDom: canvasDom,
@@ -72,17 +67,16 @@ var divDomHandle = function (domInfor, width, height) {
         height: canvasDom.height
     };
 };
-function default_1(dom, width, height) {
-    var domInfor = getDom(dom);
-    if (domInfor.type === 'HTMLCanvasElement') {
-        return canvasDomHandle(domInfor, width, height);
+export default function (dom, width, height) {
+    var domInfo = getDom(dom);
+    if (domInfo.type === 'HTMLCanvasElement') {
+        return canvasDomHandle(domInfo, width, height);
     }
-    else if (domInfor.type === 'HTMLDivElement') {
-        return divDomHandle(domInfor, width, height);
+    else if (domInfo.type === 'HTMLElement') {
+        return divDomHandle(domInfo, width, height);
     }
     else {
         throw new Error('no input dom');
     }
 }
-exports.default = default_1;
 //# sourceMappingURL=index.js.map

@@ -1,6 +1,6 @@
 {
   "name": "init-canvas",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "input a dom or domId  canvas or canvseDomId return canvas context and width height",
   "main": "./dist/src/index.js",
   "author": "sz-p <sz_p@outlook.com>",
